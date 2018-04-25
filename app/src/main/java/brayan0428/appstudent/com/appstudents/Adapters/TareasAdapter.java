@@ -1,6 +1,8 @@
 package brayan0428.appstudent.com.appstudents.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -45,9 +47,23 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
         holder.deleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                procesos.eliminarTarea(tareasList.get(position).getId());
-                tareasList.remove(position);
-                notifyDataSetChanged();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Esta seguro que desea eliminar la tarea?")
+                        .setTitle("Confirmación")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                procesos.eliminarTarea(tareasList.get(position).getId());
+                                tareasList.remove(position);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        });
+                builder.create();
+                builder.show();
             }
         });
     }
