@@ -127,6 +127,7 @@
                     android:src="@drawable/tareas" />
 
                 <TextView
+                    android:id="@+id/countTareas"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

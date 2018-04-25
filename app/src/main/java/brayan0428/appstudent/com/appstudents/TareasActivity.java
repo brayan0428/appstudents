@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import brayan0428.appstudent.com.appstudents.Adapters.TareasAdapter;
+import brayan0428.appstudent.com.appstudents.Database.Procesos;
 import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
 
 public class TareasActivity extends AppCompatActivity {
@@ -37,6 +39,8 @@ public class TareasActivity extends AppCompatActivity {
     List<Tareas> tareasList;
     RecyclerView recyclerView;
     TareasAdapter tareasAdapter;
+    Procesos procesos = new Procesos(this);
+    String msn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,9 +144,16 @@ public class TareasActivity extends AppCompatActivity {
                             return;
                         }
                         tareasList.add(new Tareas(tareasList.size(),Titulo,Fecha,HoraIni,HoraFin));
-                        tareasAdapter.notifyDataSetChanged();
-                        alert.dismiss();
-                        Toast.makeText(TareasActivity.this,"Guardado correctamente",Toast.LENGTH_LONG).show();
+                        msn = procesos.insertarTarea(Titulo,Fecha,HoraIni,HoraFin);
+                        if(msn.equals("")){
+                            tareasAdapter.notifyDataSetChanged();
+                            alert.dismiss();
+                            Utilidades.mostrarMensaje(getApplicationContext(),"Guardado correctamente");
+                            inicializarDatos();
+                        }else{
+                            Utilidades.mostrarMensaje(getApplicationContext(),msn);
+                        }
+
                     }
                 });
                 cancelar.setOnClickListener(new View.OnClickListener() {
@@ -159,6 +170,6 @@ public class TareasActivity extends AppCompatActivity {
 
     public void inicializarDatos(){
         tareasList = new ArrayList<>();
-        tareasList.add(new Tareas(1,"Partido de Junior vs Nacional","25/04/2018","20:00","22:00"));
+        tareasList = procesos.consultarTareas();
     }
 }

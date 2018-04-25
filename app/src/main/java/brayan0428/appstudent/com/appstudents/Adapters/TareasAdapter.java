@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import brayan0428.appstudent.com.appstudents.Database.Procesos;
 import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
 import brayan0428.appstudent.com.appstudents.R;
 
@@ -21,10 +22,12 @@ import brayan0428.appstudent.com.appstudents.R;
 public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder> {
     Context context;
     List<Tareas> tareasList;
-
+    Procesos procesos;
+    String msn;
     public TareasAdapter(Context context,List<Tareas> tareasList){
         this.context = context;
         this.tareasList = tareasList;
+        this.procesos = new Procesos(context);
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,6 +45,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
         holder.deleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                procesos.eliminarTarea(tareasList.get(position).getId());
                 tareasList.remove(position);
                 notifyDataSetChanged();
             }
