@@ -34,7 +34,7 @@ public class Procesos {
         try{
             ArrayList<Tareas> tareas = new ArrayList<>();
             sql = db.getReadableDatabase();
-            Cursor c = sql.rawQuery("select id,titulo,fecha,hora_ini,hora_fin from tareas",null);
+            Cursor c = sql.rawQuery("select id,titulo,fecha,hora_ini,hora_fin from tareas order by cast(fecha as date) asc",null);
             if (c.moveToFirst()) {
                 do {
                     tareas.add(new Tareas(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4)));

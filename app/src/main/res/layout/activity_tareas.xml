@@ -16,6 +16,8 @@
         android:orientation="vertical"
         tools:context="brayan0428.appstudent.com.appstudents.TareasActivity">
 
+        <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleView"
             android:layout_width="match_parent"

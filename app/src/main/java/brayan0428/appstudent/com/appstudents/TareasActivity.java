@@ -10,15 +10,13 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +30,8 @@ public class TareasActivity extends AppCompatActivity {
     FloatingActionButton agregarTarea;
     EditText tituloTarea,fechaTarea,horaini,horafin;
     Button guardar,cancelar;
+    android.support.v7.widget.Toolbar toolbar;
+    TextView nombreVista;
     Calendar c;
     int anio,mes,dia,hora,minuto;
     AlertDialog alert;
@@ -53,6 +53,15 @@ public class TareasActivity extends AppCompatActivity {
         inicializarDatos();
         tareasAdapter = new TareasAdapter(this,tareasList);
         recyclerView.setAdapter(tareasAdapter);
+        toolbar = findViewById(R.id.toolbar);
+        nombreVista = toolbar.findViewById(R.id.nombreVista);
+        nombreVista.setText("Tareas");
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         agregarTarea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,10 +155,10 @@ public class TareasActivity extends AppCompatActivity {
                         tareasList.add(new Tareas(tareasList.size(),Titulo,Fecha,HoraIni,HoraFin));
                         msn = procesos.insertarTarea(Titulo,Fecha,HoraIni,HoraFin);
                         if(msn.equals("")){
-                            tareasAdapter.notifyDataSetChanged();
                             alert.dismiss();
                             Utilidades.mostrarMensaje(getApplicationContext(),"Guardado correctamente");
                             inicializarDatos();
+                            tareasAdapter.notifyDataSetChanged();
                         }else{
                             Utilidades.mostrarMensaje(getApplicationContext(),msn);
                         }
