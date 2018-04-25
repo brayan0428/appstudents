@@ -7,7 +7,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +19,12 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+
+import brayan0428.appstudent.com.appstudents.Adapters.TareasAdapter;
+import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
 
 public class TareasActivity extends AppCompatActivity {
     FloatingActionButton agregarTarea;
@@ -26,11 +34,22 @@ public class TareasActivity extends AppCompatActivity {
     int anio,mes,dia,hora,minuto;
     AlertDialog alert;
     Context context = TareasActivity.this;
+    List<Tareas> tareasList;
+    RecyclerView recyclerView;
+    TareasAdapter tareasAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tareas);
         agregarTarea = findViewById(R.id.actionTareas);
+        recyclerView = findViewById(R.id.recycleView);
+        //Inicializamos el RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+        recyclerView.setLayoutManager(layoutManager);
+        inicializarDatos();
+        tareasAdapter = new TareasAdapter(this,tareasList);
+        recyclerView.setAdapter(tareasAdapter);
+
         agregarTarea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,7 +96,7 @@ public class TareasActivity extends AppCompatActivity {
                         TimePickerDialog timePickerDialog = new TimePickerDialog(TareasActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                                horaini.setText(i + ":" + i1);
+                                horaini.setText(i + ":" + ("0" + i1).toString().substring( ("0" + i1).length() -2, ("0" + i1).length()));
                             }
                         },hora,minuto,false);
                         timePickerDialog.show();
@@ -90,7 +109,7 @@ public class TareasActivity extends AppCompatActivity {
                         TimePickerDialog timePickerDialog = new TimePickerDialog(TareasActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                                horafin.setText(i + ":" + i1);
+                                horafin.setText(i + ":" + ("0" + i1).toString().substring( ("0" + i1).length() -2, ("0" + i1).length()));
                             }
                         },hora,minuto,false);
                         timePickerDialog.show();
@@ -120,6 +139,9 @@ public class TareasActivity extends AppCompatActivity {
                             Utilidades.mostrarMensaje(context,"Debe ingresar una hora fin valida");
                             return;
                         }
+                        tareasList.add(new Tareas(tareasList.size(),Titulo,Fecha,HoraIni,HoraFin));
+                        tareasAdapter.notifyDataSetChanged();
+                        alert.dismiss();
                         Toast.makeText(TareasActivity.this,"Guardado correctamente",Toast.LENGTH_LONG).show();
                     }
                 });
@@ -133,5 +155,10 @@ public class TareasActivity extends AppCompatActivity {
                 alert = builder.show();
             }
         });
+    }
+
+    public void inicializarDatos(){
+        tareasList = new ArrayList<>();
+        tareasList.add(new Tareas(1,"Partido de Junior vs Nacional","25/04/2018","20:00","22:00"));
     }
 }
