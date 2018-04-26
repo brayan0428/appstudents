@@ -31,6 +31,7 @@
         <!--Row 1-->
         <!--Column 1-->
         <android.support.v7.widget.CardView
+            android:id="@+id/calculoRapido"
             android:layout_width="@dimen/anchoCardView"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
@@ -56,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calculo Rapido"
+                    android:text="Cálculo Rapido"
                     android:textAlignment="center"
                     android:textSize="12dp"
                     android:textStyle="bold|italic" />

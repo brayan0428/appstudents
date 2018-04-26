@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class AudioFragment extends Fragment{
     MediaPlayer player;
     MediaRecorder recorder;
     File archivo;
+    ImageView imgRec;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class AudioFragment extends Fragment{
         detener = view.findViewById(R.id.detener);
         titulo = view.findViewById(R.id.titulo);
         cronometro = view.findViewById(R.id.cronometro);
+        imgRec = view.findViewById(R.id.imgRec);
         File path =  new File(Environment.getExternalStorageDirectory().getPath(),"/audio_clases");
         path.mkdir();
         grabar.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +77,7 @@ public class AudioFragment extends Fragment{
                 cronometro.setBase(SystemClock.elapsedRealtime());
                 cronometro.start();
                 detener.setEnabled(true);
+                imgRec.setVisibility(View.VISIBLE);
             }
         });
 
@@ -96,6 +100,8 @@ public class AudioFragment extends Fragment{
                 detener.setEnabled(false);
                 titulo.setText("");
                 Toast.makeText(view.getContext(),"Audio guardado exitosamente",Toast.LENGTH_SHORT).show();
+                ListarAudiosFragment.arrayAdapter.notifyDataSetChanged();
+                imgRec.setVisibility(View.INVISIBLE);
             }
         });
     }

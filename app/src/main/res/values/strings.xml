@@ -7,4 +7,16 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="tab_text_3">Tab 3</string>
     <string name="title_activity_tareas">TareasActivity</string>
+    <string name="textoResultado">Digita tus notas y porcentajes y calcula la nota que debes sacar!</string>
+    <string-array name="porcentajes">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+        <item>60</item>
+        <item>70</item>
+        <item>80</item>
+        <item>90</item>
+    </string-array>
 </resources>
