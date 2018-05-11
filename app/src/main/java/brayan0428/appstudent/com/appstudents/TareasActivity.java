@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -92,6 +93,7 @@ public class TareasActivity extends AppCompatActivity {
                 fechaTarea.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ocultarTeclado();
                         DatePickerDialog datePickerDialog = new DatePickerDialog(TareasActivity.this, new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -106,6 +108,7 @@ public class TareasActivity extends AppCompatActivity {
                 horaini.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ocultarTeclado();
                         TimePickerDialog timePickerDialog = new TimePickerDialog(TareasActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int i, int i1) {
@@ -119,6 +122,7 @@ public class TareasActivity extends AppCompatActivity {
                 horafin.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ocultarTeclado();
                         TimePickerDialog timePickerDialog = new TimePickerDialog(TareasActivity.this, new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int i, int i1) {
@@ -132,6 +136,7 @@ public class TareasActivity extends AppCompatActivity {
                 guardar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        ocultarTeclado();
                         String Titulo = tituloTarea.getText().toString();
                         String Fecha = fechaTarea.getText().toString();
                         String HoraIni = horaini.getText().toString();
@@ -180,5 +185,10 @@ public class TareasActivity extends AppCompatActivity {
     public void inicializarDatos(){
         tareasList = new ArrayList<>();
         tareasList = procesos.consultarTareas();
+    }
+
+    public void ocultarTeclado(){
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(tituloTarea.getWindowToken(), 0);
     }
 }

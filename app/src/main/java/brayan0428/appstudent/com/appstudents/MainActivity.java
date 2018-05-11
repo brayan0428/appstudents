@@ -12,7 +12,7 @@ import android.widget.TextView;
 import brayan0428.appstudent.com.appstudents.Database.Procesos;
 
 public class MainActivity extends AppCompatActivity {
-    CardView grabarAudio,tareas,calculoRapido;
+    CardView grabarAudio,tareas,calculoRapido,materias;
     TextView countTareas;
     Procesos procesos;
     @Override
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         grabarAudio = findViewById(R.id.GrabarAudio);
         tareas = findViewById(R.id.cardTareas);
         calculoRapido = findViewById(R.id.calculoRapido);
+        materias = findViewById(R.id.cardMaterias);
         //Eventos Click
         grabarAudio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),CalculoRapidoActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        materias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),MateriasActivity.class);
                 startActivity(intent);
             }
         });

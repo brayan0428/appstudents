@@ -48,7 +48,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Esta seguro que desea eliminar la tarea?")
+                builder.setMessage("Esta seguro que desea eliminar la materia?")
                         .setTitle("Confirmación")
                         .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
