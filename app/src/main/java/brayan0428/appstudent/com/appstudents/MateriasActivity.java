@@ -64,6 +64,7 @@ public class MateriasActivity extends AppCompatActivity {
                 LayoutInflater inflater = MateriasActivity.this.getLayoutInflater();
                 View v = inflater.inflate(R.layout.agregar_materia_modal,null);
                 builder.setView(v);
+                Utilidades.mostrarMensaje(getApplication(),"");
                 builder.setTitle("Agregar Materia");
                 nombre = v.findViewById(R.id.mNombreMateria);
                 profesor = v.findViewById(R.id.mProfesor);
