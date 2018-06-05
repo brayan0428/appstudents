@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import brayan0428.appstudent.com.appstudents.POJOS.Materias;
 import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
+import brayan0428.appstudent.com.appstudents.Utilidades;
 
 /**
  * Created by bllanos on 25/04/2018.
@@ -15,9 +16,11 @@ import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
 
 public class Procesos {
     DBHelper db;
+    Context context;
     SQLiteDatabase sql;
     public Procesos(Context context){
         this.db = new DBHelper(context,null,1);
+        this.context = context;
     }
 
     public String insertarTarea(String titulo,String fecha,String hora_ini,String hora_fin){
@@ -93,6 +96,35 @@ public class Procesos {
             return "";
         }catch (Exception e){
             return e.getMessage();
+        }
+    }
+
+    public String insertarUsuario(String nombre, String email, String clave){
+        try{
+            sql = db.getWritableDatabase();
+            sql.execSQL("insert into usuarios (nombre,email,clave,habilitado) values (" +
+                    "'" + nombre +"','" + email +"','" + clave +"', 1)");
+            return "";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    public boolean consultarUsuarios(String email,String clave,Boolean op){
+        try{
+            sql = db.getReadableDatabase();
+            String query = "select id,nombre,email,clave from usuarios where habilitado = 1 and email = '" + email.trim() + "'";
+            if (op == true){
+                query += "and clave = '" + clave + "'";
+            }
+            Cursor c = sql.rawQuery(query,null);
+            if (c.moveToFirst()) {
+                return true;
+            }
+            return false;
+        }catch (Exception e){
+            Utilidades.mostrarMensaje(this.context,"Error: " + e.getMessage());
+            return false;
         }
     }
 }
