@@ -1,6 +1,7 @@
 package brayan0428.appstudent.com.appstudents;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -46,5 +47,23 @@ public class Utilidades {
         resultado=Math.round(resultado);
         resultado=(resultado/Math.pow(10, numeroDecimales))+parteEntera;
         return resultado;
+    }
+
+    public static void guardarDatosSesion(Context c,int id,String nombre){
+        SharedPreferences sharedPreferences = c.getSharedPreferences("DatosUsuario",c.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("id",id);
+        editor.putString("nombre",nombre);
+        editor.commit();
+    }
+
+    public static int obtenerIdSesion(Context c){
+        SharedPreferences sharedPreferences = c.getSharedPreferences("DatosUsuario",c.MODE_PRIVATE);
+        return sharedPreferences.getInt("id",0);
+    }
+
+    public static String obtenerNombreSesion(Context c){
+        SharedPreferences sharedPreferences = c.getSharedPreferences("DatosUsuario",c.MODE_PRIVATE);
+        return sharedPreferences.getString("nombre","");
     }
 }

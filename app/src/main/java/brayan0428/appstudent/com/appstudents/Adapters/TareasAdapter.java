@@ -3,6 +3,7 @@ package brayan0428.appstudent.com.appstudents.Adapters;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,9 +14,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import brayan0428.appstudent.com.appstudents.ActivityEditarTarea;
 import brayan0428.appstudent.com.appstudents.Database.Procesos;
 import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
 import brayan0428.appstudent.com.appstudents.R;
+import brayan0428.appstudent.com.appstudents.TareasActivity;
 
 /**
  * Created by bllanos on 25/04/2018.
@@ -64,6 +67,19 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
                         });
                 builder.create();
                 builder.show();
+            }
+        });
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,ActivityEditarTarea.class);
+                intent.putExtra("idTarea",tareasList.get(position).getId());
+                intent.putExtra("nombreTarea",tareasList.get(position).getTitulo());
+                intent.putExtra("fechaTarea",tareasList.get(position).getFecha());
+                intent.putExtra("horaIni",tareasList.get(position).getHoraIni());
+                intent.putExtra("horaFin",tareasList.get(position).getHoraFin());
+                context.startActivity(intent);
             }
         });
     }

@@ -18,6 +18,7 @@ public class Procesos {
     DBHelper db;
     Context context;
     SQLiteDatabase sql;
+    int IdUsuario;
     public Procesos(Context context){
         this.db = new DBHelper(context,null,1);
         this.context = context;
@@ -26,7 +27,8 @@ public class Procesos {
     public String insertarTarea(String titulo,String fecha,String hora_ini,String hora_fin){
         try{
             sql = db.getWritableDatabase();
-            sql.execSQL("insert into tareas (titulo,fecha,hora_ini,hora_fin) values (" +
+            this.IdUsuario = Utilidades.obtenerIdSesion(this.context);
+            sql.execSQL("insert into tareas (idusuario,titulo,fecha,hora_ini,hora_fin) values (" + this.IdUsuario +"," +
                     "'" + titulo +"','" + fecha +"','" + hora_ini +"','" + hora_fin +"')");
             return "";
         }catch (Exception e){
@@ -119,6 +121,7 @@ public class Procesos {
             }
             Cursor c = sql.rawQuery(query,null);
             if (c.moveToFirst()) {
+                Utilidades.guardarDatosSesion(this.context,c.getInt(0),c.getString(1));
                 return true;
             }
             return false;

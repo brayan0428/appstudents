@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Utilidades.mostrarMensaje(this,Utilidades.obtenerIdSesion(this) + "");
         //Asignamos variables
         grabarAudio = findViewById(R.id.GrabarAudio);
         tareas = findViewById(R.id.cardTareas);

@@ -28,7 +28,8 @@
         <activity android:name=".CalculoRapidoActivity" />
         <activity android:name=".MateriasActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".RegistroActivity"></activity>
+        <activity android:name=".RegistroActivity" />
+        <activity android:name=".ActivityEditarTarea"></activity>
     </application>
 
 </manifest>
