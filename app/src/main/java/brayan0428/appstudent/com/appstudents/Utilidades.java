@@ -66,4 +66,14 @@ public class Utilidades {
         SharedPreferences sharedPreferences = c.getSharedPreferences("DatosUsuario",c.MODE_PRIVATE);
         return sharedPreferences.getString("nombre","");
     }
+
+    public static double retornarNotaMinima(double nota1,double nota2,int porcentaje_1,int porcentaje_2) {
+        double notaMinima = 3.0,
+                notaMaxima = 5.0;
+        double porcentaje_Nota1 = (nota1 * porcentaje_1) / 100;
+        double porcentaje_Nota2 = (nota2 * porcentaje_2) / 100;
+        double diferencia = notaMinima - (porcentaje_Nota1 + porcentaje_Nota2);
+        double resultado = (diferencia * notaMaxima) / ((notaMaxima * (100 - (porcentaje_1 + porcentaje_2))) / 100);
+        return redondearDecimales(resultado,1);
+    }
 }

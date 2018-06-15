@@ -1,6 +1,8 @@
 package brayan0428.appstudent.com.appstudents;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +14,7 @@ import android.widget.TextView;
 import brayan0428.appstudent.com.appstudents.Database.Procesos;
 
 public class MainActivity extends AppCompatActivity {
-    CardView grabarAudio,tareas,calculoRapido,materias;
+    CardView grabarAudio,tareas,calculoRapido,materias,cerrarSesion;
     TextView countTareas;
     Procesos procesos;
     @Override
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         tareas = findViewById(R.id.cardTareas);
         calculoRapido = findViewById(R.id.calculoRapido);
         materias = findViewById(R.id.cardMaterias);
+        cerrarSesion = findViewById(R.id.cerrarSesion);
         //Eventos Click
         grabarAudio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +61,33 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        cerrarSesion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setMessage("Esta seguro que desea cerrar sesión?")
+                            .setTitle("Confirmación")
+                            .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+
+                                }
+                            });
+                    builder.create();
+                    builder.show();
+                }catch (Exception e){
+                    Utilidades.mostrarMensaje(getApplicationContext(),e.getMessage());
+                }
+            }
+        });
     }
 
     @Override
@@ -65,6 +95,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         procesos = new Procesos(this);
         countTareas = findViewById(R.id.countTareas);
-        countTareas.setText("Tareas (" + procesos.consultarTareas().size() + ")");
+        countTareas.setText("Tareas (" + procesos.consultarTareas("","").size() + ")");
     }
 }

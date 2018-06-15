@@ -29,7 +29,9 @@
         <activity android:name=".MateriasActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegistroActivity" />
-        <activity android:name=".ActivityEditarTarea"></activity>
+        <activity android:name=".ActivityEditarTarea" />
+        <activity android:name=".EditarMateriaActivity" />
+        <activity android:name=".GraficasActivity"></activity>
     </application>
 
 </manifest>

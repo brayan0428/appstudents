@@ -31,7 +31,8 @@ import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
 public class TareasActivity extends AppCompatActivity {
     FloatingActionButton agregarTarea;
     EditText tituloTarea,fechaTarea,horaini,horafin;
-    Button guardar,cancelar;
+    EditText fechaIni,fechaFin;
+    Button guardar,cancelar,filtrarTarea;
     android.support.v7.widget.Toolbar toolbar;
     TextView nombreVista;
     Calendar c;
@@ -49,10 +50,13 @@ public class TareasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tareas);
         agregarTarea = findViewById(R.id.actionTareas);
         recyclerView = findViewById(R.id.recycleView);
+        fechaIni = findViewById(R.id.fechaIni);
+        fechaFin = findViewById(R.id.fechaFin);
+        filtrarTarea = findViewById(R.id.filtrarTarea);
         //Inicializamos el RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
-        inicializarDatos();
+        inicializarDatos("","");
         tareasAdapter = new TareasAdapter(this,tareasList);
         recyclerView.setAdapter(tareasAdapter);
         toolbar = findViewById(R.id.toolbar);
@@ -71,11 +75,67 @@ public class TareasActivity extends AppCompatActivity {
                 ModalTarea();
             }
         });
+
+        c = Calendar.getInstance();
+        dia = c.get(Calendar.DAY_OF_MONTH);
+        mes = c.get(Calendar.MONTH);
+        anio = c.get(Calendar.YEAR);
+
+        fechaIni.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ocultarTeclado_();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(TareasActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        month = month + 1;
+                        fechaIni.setText(day + "/" + ("0" + month).toString().substring( ("0" + month).length() -2, ("0" + month).length()) + "/" + year);
+                    }
+                },anio,mes,dia);
+                datePickerDialog.show();
+            }
+        });
+
+        fechaFin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ocultarTeclado_();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(TareasActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        month = month + 1;
+                        fechaFin.setText(day + "/" + ("0" + month).toString().substring( ("0" + month).length() -2, ("0" + month).length()) + "/" + year);
+                    }
+                },anio,mes,dia);
+                datePickerDialog.show();
+            }
+        });
+
+        filtrarTarea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String FechaIni = fechaIni.getText().toString();
+                String FechaFin = fechaFin.getText().toString();
+                if(!Utilidades.validarFecha(FechaIni)){
+                    Utilidades.mostrarMensaje(context,"Debe ingresar una fecha inicial valida");
+                    return;
+                }
+                if(!Utilidades.validarFecha(FechaFin)){
+                    Utilidades.mostrarMensaje(context,"Debe ingresar una fecha fin valida");
+                    return;
+                }
+                inicializarDatos(FechaIni,FechaFin);
+                tareasAdapter = new TareasAdapter(getApplicationContext(),tareasList);
+                recyclerView.setAdapter(tareasAdapter);
+                //tareasAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
-    public void inicializarDatos(){
+    public void inicializarDatos(String fechaIni,String fechaFin){
         tareasList = new ArrayList<>();
-        tareasList = procesos.consultarTareas();
+        tareasList = procesos.consultarTareas(fechaIni,fechaFin);
     }
 
     public void ocultarTeclado(){
@@ -83,6 +143,11 @@ public class TareasActivity extends AppCompatActivity {
         inputMethodManager.hideSoftInputFromWindow(tituloTarea.getWindowToken(), 0);
     }
 
+
+    public void ocultarTeclado_(){
+        InputMethodManager inputMethodManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(fechaIni.getWindowToken(), 0);
+    }
     public void ModalTarea(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(TareasActivity.this);
         LayoutInflater inflater = TareasActivity.this.getLayoutInflater();
@@ -101,9 +166,6 @@ public class TareasActivity extends AppCompatActivity {
         horafin.setInputType(InputType.TYPE_NULL);
 
         c = Calendar.getInstance();
-        dia = c.get(Calendar.DAY_OF_MONTH);
-        mes = c.get(Calendar.MONTH);
-        anio = c.get(Calendar.YEAR);
         hora = c.get(Calendar.HOUR_OF_DAY);
         minuto = c.get(Calendar.MINUTE);
 
@@ -179,7 +241,7 @@ public class TareasActivity extends AppCompatActivity {
                 if(msn.equals("")){
                     alert.dismiss();
                     Utilidades.mostrarMensaje(getApplicationContext(),"Guardado correctamente");
-                    inicializarDatos();
+                    inicializarDatos("","");
                     tareasAdapter.notifyDataSetChanged();
                 }else{
                     Utilidades.mostrarMensaje(getApplicationContext(),msn);

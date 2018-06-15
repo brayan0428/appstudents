@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditarMateriaActivity">
+    <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+    <LinearLayout
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/mNombreMateria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre de la Materia"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/mProfesor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Profesor"/>
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/mSalon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Salón"/>
+        </android.support.design.widget.TextInputLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/tamañoLapiz"
+                android:layout_height="@dimen/tamañoLapiz"
+                android:src="@drawable/lapiz" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/mNota1"
+                    android:inputType="numberDecimal"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:hint="Nota 1"
+                    android:textSize="15dp" />
+            </android.support.design.widget.TextInputLayout>
+            <Spinner
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/mPorcentajeNota1"
+                android:entries="@array/porcentajes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/tamañoLapiz"
+                android:layout_height="@dimen/tamañoLapiz"
+                android:src="@drawable/lapiz" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/mNota2"
+                    android:inputType="numberDecimal"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:hint="Nota 2"
+                    android:textSize="15dp" />
+            </android.support.design.widget.TextInputLayout>
+            <Spinner
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/mPorcentajeNota2"
+                android:entries="@array/porcentajes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"/>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginTop="5dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/tamañoLapiz"
+                android:layout_height="@dimen/tamañoLapiz"
+                android:src="@drawable/lapiz" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/mNota3"
+                    android:inputType="numberDecimal"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:hint="Nota 3"
+                    android:textSize="15dp" />
+            </android.support.design.widget.TextInputLayout>
+            <Spinner
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/mPorcentajeNota3"
+                android:entries="@array/porcentajes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/guardarMateria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardar"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/white"
+                android:layout_marginRight="10dp"/>
+            <Button
+                android:id="@+id/cancelarMateria"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"
+                android:background="@color/colorBackground"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

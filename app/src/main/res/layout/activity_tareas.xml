@@ -17,7 +17,47 @@
         tools:context="brayan0428.appstudent.com.appstudents.TareasActivity">
 
         <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
+            android:padding="4dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4">
+
+                <EditText
+                    android:focusable="false"
+                    android:id="@+id/fechaIni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha Ini" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4">
+                <EditText
+                    android:focusable="false"
+                    android:id="@+id/fechaFin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha Fin"/>
+            </android.support.design.widget.TextInputLayout>
+            <Button
+                android:text="Buscar"
+                android:id="@+id/filtrarTarea"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimaryDark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </LinearLayout>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleView"
             android:layout_width="match_parent"

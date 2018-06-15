@@ -1,5 +1,6 @@
 package brayan0428.appstudent.com.appstudents.Adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -80,6 +81,7 @@ public class TareasAdapter extends RecyclerView.Adapter<TareasAdapter.ViewHolder
                 intent.putExtra("horaIni",tareasList.get(position).getHoraIni());
                 intent.putExtra("horaFin",tareasList.get(position).getHoraFin());
                 context.startActivity(intent);
+                ((Activity)context).finish();
             }
         });
     }

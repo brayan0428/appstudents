@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
+import brayan0428.appstudent.com.appstudents.POJOS.Grafica;
 import brayan0428.appstudent.com.appstudents.POJOS.Materias;
 import brayan0428.appstudent.com.appstudents.POJOS.Tareas;
 import brayan0428.appstudent.com.appstudents.Utilidades;
@@ -36,11 +37,17 @@ public class Procesos {
         }
     }
 
-    public ArrayList<Tareas> consultarTareas(){
+    public ArrayList<Tareas> consultarTareas(String fechaIni,String fechaFin){
         try{
             ArrayList<Tareas> tareas = new ArrayList<>();
             sql = db.getReadableDatabase();
-            Cursor c = sql.rawQuery("select id,titulo,fecha,hora_ini,hora_fin from tareas order by cast(fecha as date) asc",null);
+            this.IdUsuario = Utilidades.obtenerIdSesion(this.context);
+            String query = "select id,titulo,fecha,hora_ini,hora_fin from tareas where idusuario=" + this.IdUsuario;
+            if(!fechaIni.equals("") && !fechaFin.equals("")){
+                query+= " and fecha between '" + fechaIni + "' and '"+fechaFin+"'";
+            }
+            query += " order by cast(fecha as date) asc";
+            Cursor c = sql.rawQuery(query,null);
             if (c.moveToFirst()) {
                 do {
                     tareas.add(new Tareas(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getString(4)));
@@ -63,11 +70,22 @@ public class Procesos {
         }
     }
 
+    public String actualizarTarea(int id,String titulo,String fecha,String hora_ini,String hora_fin){
+        try{
+            sql = db.getWritableDatabase();
+            sql.execSQL("update tareas set titulo='" + titulo +"',fecha='" + fecha + "',hora_ini='"+hora_ini+"',hora_fin='"+ hora_fin +"' where id = " + id);
+            return "";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
     public ArrayList<Materias> consultarMaterias(){
         try{
             ArrayList<Materias> materias = new ArrayList<>();
+            this.IdUsuario = Utilidades.obtenerIdSesion(this.context);
             sql = db.getReadableDatabase();
-            Cursor c = sql.rawQuery("select id,nombre,profesor,salon,nota1,nota2,nota3,porcentaje1,porcentaje2,porcentaje3 from materias",null);
+            Cursor c = sql.rawQuery("select id,nombre,profesor,salon,nota1,nota2,nota3,porcentaje1,porcentaje2,porcentaje3 from materias where idusuario=" + this.IdUsuario,null);
             if (c.moveToFirst()) {
                 do {
                     materias.add(new Materias(c.getInt(0),c.getString(1),c.getString(2),c.getString(3),c.getDouble(4),c.getDouble(5),c.getDouble(6),c.getInt(7),c.getInt(8),c.getInt(9)));
@@ -82,9 +100,21 @@ public class Procesos {
 
     public String insertarMateria(String nombre,String profesor,String salon,float nota1,float nota2,float nota3,int porcentaje1,int porcentaje2,int porcentaje3){
         try{
+            this.IdUsuario = Utilidades.obtenerIdSesion(this.context);
             sql = db.getWritableDatabase();
-            sql.execSQL("insert into materias (nombre,profesor,salon,nota1,nota2,nota3,porcentaje1,porcentaje2,porcentaje3) values (" +
+            sql.execSQL("insert into materias (idusuario,nombre,profesor,salon,nota1,nota2,nota3,porcentaje1,porcentaje2,porcentaje3) values (" + this.IdUsuario +"," +
                     "'" + nombre +"','" + profesor +"','" + salon +"'," + nota1 +"," + nota2 +"," + nota3 +"," + porcentaje1 +","+porcentaje2+","+porcentaje3+" )");
+            return "";
+        }catch (Exception e){
+            return e.getMessage();
+        }
+    }
+
+    public String actualizarMateria(int id,String nombre,String profesor,String salon,float nota1,float nota2,float nota3,int porcentaje1,int porcentaje2,int porcentaje3){
+        try{
+            sql = db.getWritableDatabase();
+            sql.execSQL("update materias set nombre='" + nombre +"',profesor='"+profesor+"',salon='"+salon+"',nota1='"+nota1+"'," +
+                    "nota2 = '"+nota2+"',nota3='"+nota3+"',porcentaje1='"+porcentaje1+"',porcentaje2='"+porcentaje2+"',porcentaje3='"+porcentaje3+"' where id = '"+id+"'");
             return "";
         }catch (Exception e){
             return e.getMessage();
@@ -128,6 +158,23 @@ public class Procesos {
         }catch (Exception e){
             Utilidades.mostrarMensaje(this.context,"Error: " + e.getMessage());
             return false;
+        }
+    }
+
+    public ArrayList<Grafica> datosGraficas(){
+        try{
+            ArrayList<Grafica> graficas = new ArrayList<>();
+            sql = db.getReadableDatabase();
+            Cursor c = sql.rawQuery("select nombre, ((nota1 * porcentaje1) / 100 + (nota2 * porcentaje2) / 100 + (nota3 * porcentaje3) / 100 ) as definitiva from materias order by definitiva",null);
+            if (c.moveToFirst()) {
+                do {
+                    graficas.add(new Grafica(0,c.getString(0),c.getDouble(1)));
+                } while(c.moveToNext());
+                return graficas;
+            }
+            return graficas;
+        }catch (Exception e){
+            return null;
         }
     }
 }

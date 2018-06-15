@@ -1,8 +1,10 @@
 package brayan0428.appstudent.com.appstudents.Adapters;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,9 +15,12 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import brayan0428.appstudent.com.appstudents.ActivityEditarTarea;
 import brayan0428.appstudent.com.appstudents.Database.Procesos;
+import brayan0428.appstudent.com.appstudents.EditarMateriaActivity;
 import brayan0428.appstudent.com.appstudents.POJOS.Materias;
 import brayan0428.appstudent.com.appstudents.R;
+import brayan0428.appstudent.com.appstudents.Utilidades;
 
 public class MateriasAdapater extends RecyclerView.Adapter<MateriasAdapater.ViewHolder> {
     Context context;
@@ -63,6 +68,39 @@ public class MateriasAdapater extends RecyclerView.Adapter<MateriasAdapater.View
                         });
                 builder.create();
                 builder.show();
+            }
+        });
+        if(materiasList.get(position).getNota3() == 0){
+            holder.necesitas.setText(Utilidades.retornarNotaMinima(
+                    materiasList.get(position).getNota1(),
+                    materiasList.get(position).getNota2(),
+                    materiasList.get(position).getPorcentaje1(),
+                    materiasList.get(position).getPorcentaje2()) + "");
+            holder.definitiva.setText("");
+        }else{
+            holder.necesitas.setText("");
+            double definitiva = (((materiasList.get(position).getNota1() * materiasList.get(position).getPorcentaje1()) / 100)
+                                    + ((materiasList.get(position).getNota2() * materiasList.get(position).getPorcentaje2()) / 100)
+                                    + ((materiasList.get(position).getNota3() * materiasList.get(position).getPorcentaje3()) / 100));
+            holder.definitiva.setText(Utilidades.redondearDecimales(definitiva,1) + "");
+        }
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context,EditarMateriaActivity.class);
+                intent.putExtra("idMateria",materiasList.get(position).getId());
+                intent.putExtra("nombreMateria",materiasList.get(position).getNombre());
+                intent.putExtra("profesor",materiasList.get(position).getProfesor());
+                intent.putExtra("salon",materiasList.get(position).getSalon());
+                intent.putExtra("nota1",materiasList.get(position).getNota1());
+                intent.putExtra("nota2",materiasList.get(position).getNota2());
+                intent.putExtra("nota3",materiasList.get(position).getNota3());
+                intent.putExtra("porcentaje1",materiasList.get(position).getPorcentaje1());
+                intent.putExtra("porcentaje2",materiasList.get(position).getPorcentaje2());
+                intent.putExtra("porcentaje3",materiasList.get(position).getPorcentaje3());
+                context.startActivity(intent);
+                ((Activity)context).finish();
             }
         });
     }

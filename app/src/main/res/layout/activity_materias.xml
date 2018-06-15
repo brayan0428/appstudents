@@ -30,10 +30,22 @@
         android:id="@+id/actionMaterias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="20dp"
-        android:src="@drawable/float_button"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="19dp"
+        android:src="@drawable/float_button"
+        app:backgroundTint="@color/colorBackground" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/actionGraficas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/actionMaterias"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="14dp"
+        android:src="@drawable/grafico"
         app:backgroundTint="@color/colorBackground" />
 </RelativeLayout>

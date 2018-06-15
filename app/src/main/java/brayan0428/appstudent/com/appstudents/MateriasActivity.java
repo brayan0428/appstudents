@@ -1,5 +1,6 @@
 package brayan0428.appstudent.com.appstudents;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +25,7 @@ public class MateriasActivity extends AppCompatActivity {
     EditText nombre,profesor,salon,nota1,nota2,nota3;
     Spinner porcentaje1,porcentaje2,porcentaje3;
     Button guardar,cancelar;
-    FloatingActionButton agregarMateria;
+    FloatingActionButton agregarMateria,graficas;
     RecyclerView recyclerView;
     MateriasAdapater materiasAdapater;
     ArrayList<Materias> materiasList;
@@ -39,6 +40,7 @@ public class MateriasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_materias);
 
         agregarMateria = findViewById(R.id.actionMaterias);
+        graficas = findViewById(R.id.actionGraficas);
         recyclerView = findViewById(R.id.recyclerViewMaterias);
         //Inicializamos el RecyclerView
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -64,7 +66,6 @@ public class MateriasActivity extends AppCompatActivity {
                 LayoutInflater inflater = MateriasActivity.this.getLayoutInflater();
                 View v = inflater.inflate(R.layout.agregar_materia_modal,null);
                 builder.setView(v);
-                Utilidades.mostrarMensaje(getApplication(),"");
                 builder.setTitle("Agregar Materia");
                 nombre = v.findViewById(R.id.mNombreMateria);
                 profesor = v.findViewById(R.id.mProfesor);
@@ -84,12 +85,12 @@ public class MateriasActivity extends AppCompatActivity {
                         String nombreMateria = nombre.getText().toString().trim();
                         String profesorMateria = profesor.getText().toString().trim();
                         String salonMateria = salon.getText().toString().trim();
-                        float nota1Materia = getNumber(nota1.getText().toString().trim());
-                        float nota2Materia = getNumber(nota2.getText().toString().trim());
-                        float nota3Materia = getNumber(nota3.getText().toString().trim());
-                        int porcentaje1Materia = getNumber(porcentaje1.getSelectedItem().toString().trim());
-                        int porcentaje2Materia = getNumber(porcentaje2.getSelectedItem().toString().trim());
-                        int porcentaje3Materia = getNumber(porcentaje3.getSelectedItem().toString().trim());
+                        float nota1Materia = getFloat(nota1.getText().toString().trim());
+                        float nota2Materia = getFloat(nota2.getText().toString().trim());
+                        float nota3Materia = getFloat(nota3.getText().toString().trim());
+                        int porcentaje1Materia = getInt(porcentaje1.getSelectedItem().toString().trim());
+                        int porcentaje2Materia = getInt(porcentaje2.getSelectedItem().toString().trim());
+                        int porcentaje3Materia = getInt(porcentaje3.getSelectedItem().toString().trim());
 
                         msn = procesos.insertarMateria(nombreMateria,profesorMateria,salonMateria,nota1Materia,nota2Materia,nota3Materia,
                                                         porcentaje1Materia,porcentaje2Materia,porcentaje3Materia);
@@ -115,6 +116,14 @@ public class MateriasActivity extends AppCompatActivity {
                 alert = builder.show();
             }
         });
+
+        graficas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),GraficasActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void inicializarDatos(){
@@ -122,7 +131,14 @@ public class MateriasActivity extends AppCompatActivity {
         materiasList = procesos.consultarMaterias();
     }
 
-    public int getNumber(String valor){
+    public float getFloat(String valor){
+        if(valor.equals("")){
+            return 0;
+        }
+        return Float.parseFloat(valor);
+    }
+
+    public int getInt(String valor){
         if(valor.equals("")){
             return 0;
         }
